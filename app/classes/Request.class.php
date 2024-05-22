@@ -12,6 +12,8 @@
     
         public function cleanInput($input)
         {
+            if (!$input) return;
+            
             if (is_array($input)) {
                 return $this->cleanArray($input);
             } else {

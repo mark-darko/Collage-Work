@@ -5,3 +5,5 @@
     $menu = new Menu($menu_array, $_SERVER['REQUEST_URI']);
     $request = new Request;
     $db = new Mysql($dbConfig);
+
+    $menu_html = $menu->get_menu();

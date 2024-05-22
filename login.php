@@ -19,17 +19,22 @@
 					</div>
 					<div class="row block-9">
 						<div class="col-lg-6 d-flex">
-							<form action="#" class="bg-light p-5 contact-form">
+							<form action="/app/login.php" method="POST" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control is-invalid" placeholder="Your Login"
+									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Your Login"
 										name="login">
+
+									<?php if(isset($user->errors["login"])) : ?>
+										<?php foreach($user->errors["login"] as $error) : ?>
+											<div class="invalid-feedback">
+												<?= $error ?>
+											</div>
+										<?php endforeach ?>
+									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control is-invalid" placeholder="Password"
+									<input type="password" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->password ?? '' ?>" placeholder="Password"
 										name="password">
-									<div class="invalid-feedback">
-										password error
-									</div>
 								</div>
 								<div class="form-group">
 									<input type="submit" value="Вход" class="btn btn-primary py-3 px-5">

@@ -3,6 +3,7 @@
 
         // Атрибуты
         private $tableName = 'users';
+        public $id;
         public $name;
         public $surname;
         public $patronymic;
@@ -10,10 +11,11 @@
         public $email;
         public $password;
         public $confirmPassword;
+        public $token;
         public $errors = [];
     
         // Валидация
-        private $validationRules = [
+        private $validationRulesRegister = [
             'name' => [
                 'required' => true,
                 'min' => 2,
@@ -50,32 +52,58 @@
                 'matches' => 'password'
             ],
         ];
+
+        private $validationRulesLogin = [
+            'login' => [
+                'required' => true,
+                'min' => 2,
+                'max' => 10,
+            ],
+            'password' => [
+                'required' => true,
+                'min' => 8,
+                'max' => 255
+            ],
+        ];
     
         // Авторизация
-        private $isGuest = true;
-        private $isAdmin = false;
+        private $adminLogin = 'admin';
+        private $adminPassword = 'password';
+
+        private $isGuest;
+        private $isAdmin;
     
-        private $request;
+        private Request $request;
         private Mysql $db;
     
         // Конструктор
         public function __construct($request, $db) {
             $this->request = $request;
             $this->db = $db;
+
+            if($this->request->token())
+                $this->identity();
         }
     
         // Методы
-    
         public function load($data) {
             foreach ($data as $key => $value) {
                 if (property_exists($this, $key)) {
                     $this->$key = $value;
                 }
             }
+
+            if ($this->isAdmin()) {
+                $this->isGuest = false;
+                $this->isAdmin = true;
+            } else {
+                $this->isGuest = true;
+                $this->isAdmin = false;
+            }
         }
     
         public function validateRegister() {
-            foreach ($this->validationRules as $field => $rules) {
+            foreach ($this->validationRulesRegister as $field => $rules) {
                 foreach ($rules as $rule => $value) {
                     switch ($rule) {
                         case 'required':
@@ -113,6 +141,79 @@
             }
     
             return count($this->errors) > 0;
+        }
+
+        public function validateLogin() {
+            foreach ($this->validationRulesLogin as $field => $rules) {
+                foreach ($rules as $rule => $value) {
+                    switch ($rule) {
+                        case 'required':
+                            if (empty($this->$field)) {
+                                $this->errors[$field][] = "Поле {$field} обязательно для заполнения";
+                            }
+                            break;
+                        case 'min':
+                            if (strlen($this->$field) < $value) {
+                                $this->errors[$field][] = "Поле {$field} должно содержать не менее {$value} символов";
+                            }
+                            break;
+                        case 'max':
+                            if (strlen($this->$field) > $value) {
+                                $this->errors[$field][] = "Поле {$field} должно содержать не более {$value} символов";
+                            }
+                            break;
+                    }
+                }
+            }
+    
+            return count($this->errors) > 0;
+        }
+
+        public function login()
+        {
+            $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE login = '{$this->login}'");
+
+            if ($user && password_verify($this->password, $user["password"])) {
+                $this->load($user);
+                
+                //if ($this->isAdmin()) {
+                //    $this->isGuest = false;
+                //    $this->isAdmin = true;
+                //} else {
+                //    $this->isGuest = true;
+                //    $this->isAdmin = false;
+                //}
+
+                $this->token = bin2hex(random_bytes(32));
+                $sql = "UPDATE {$this->tableName} SET token='{$this->token}' WHERE id={$this->id}";
+                $this->db->query($sql);
+
+            } else
+                $this->errors['login'][] = 'Логин или пароль не совпадают с нашими записями!';
+
+            return empty($this->errors['login']);
+        }
+
+        public function identity($id = null)
+        {
+            if ($id) {
+                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = {$id}");
+            } else {
+                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE token = {$this->request->token()}");
+            }
+    
+            if ($user)
+                $this->load($user);
+        }
+
+        public function isAdmin() {
+            return $this->login === $this->adminLogin && $this->password === $this->adminPassword;
+        }
+
+        public function logout()
+        {
+            $sql = "UPDATE {$this->tableName} SET token=NULL WHERE id={$this->id}";
+            $this->db->query($sql);
         }
     
         public function save() {

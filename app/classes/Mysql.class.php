@@ -13,16 +13,15 @@
             );
 
             $this->isConnected = $this->connect_errno ? false : true;
+
+            $this->set_charset('utf8');
         }
 
-        public function queryAssoc(string $query): array
+        public function queryAssoc(string $query)
         {
             $result = $this->query($query);
-            $rows = [];
-            while ($row = $result->fetch_assoc()) {
-                $rows[] = $row;
-            }
-            return $rows;
+
+            return $result->fetch_assoc();
         }
 
         public function isUnique(string $table, string $field, string $value): bool

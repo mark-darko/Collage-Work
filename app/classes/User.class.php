@@ -73,7 +73,7 @@
         private $isGuest;
         private $isAdmin;
     
-        private Request $request;
+        public Request $request;
         private Mysql $db;
     
         // Конструктор

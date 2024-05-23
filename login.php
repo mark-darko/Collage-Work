@@ -33,7 +33,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->password ?? '' ?>" placeholder="Password"
+									<input type="password" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" placeholder="Password"
 										name="password">
 								</div>
 								<div class="form-group">

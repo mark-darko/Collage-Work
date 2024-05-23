@@ -7,7 +7,8 @@
         
         if (!$user->validateLogin()) {
             if ($user->login()) {
-                header("Location: /app?token={$user->token}");
+                $response = new Response($user);
+                $response->redirect('/app/index.php');
                 exit;
             }
         }

@@ -1,5 +1,5 @@
 <?php
-    class User {
+    class User extends Data {
 
         // Атрибуты
         private $tableName = 'users';
@@ -197,9 +197,9 @@
         public function identity($id = null)
         {
             if ($id) {
-                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = {$id}");
+                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = '{$id}'");
             } else {
-                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE token = {$this->request->token()}");
+                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE token = '{$this->request->token()}'");
             }
     
             if ($user)

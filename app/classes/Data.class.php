@@ -25,4 +25,17 @@
                 }
             }
         }
+
+        public function nl2br($data) {
+            return preg_replace('/\v+|\\\r\\\n/ui','<br/>', $data);
+        }
+    
+        public function br2nl($data) {
+            return str_replace('<br/>', "\r\n", $data);
+        }
+    
+        public function formatDate($date) {
+            $datetime = new DateTime($date);
+            return $datetime->format('d.mY H:i:s');
+        }    
     }

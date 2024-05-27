@@ -2,14 +2,16 @@
     class Menu {
         private $menu;
         private $active_link;
+        private $response;
 
         /**
          * @param array $menu
          */
-        public function __construct(array $menu, string $active_link)
+        public function __construct(array $menu, string $active_link, Response $response)
         {
             $this->menu = $menu;
             $this->active_link = $active_link;
+            $this->response = $response;
         }
 
         public function get_menu ()
@@ -25,9 +27,9 @@
 
             foreach ($this->menu as $title => $page) {
                 if ($this->active_link == $page)
-                    $links .= '<li class="colorlib-active"><a href="' . $page .'">' . $title . '</a></li>';
+                    $links .= '<li class="colorlib-active"><a href="' . $this->response->getLink($page) .'">' . $title . '</a></li>';
                 else
-                    $links .= '<li><a href="' . $page .'">' . $title . '</a></li>';
+                    $links .= '<li><a href="' . $this->response->getLink($page) .'">' . $title . '</a></li>';
             }
 
             return $top_side . $links . $bottom_side;

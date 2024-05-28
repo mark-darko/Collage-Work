@@ -24,4 +24,4 @@
     if ($request->isGet && $request->get('id'))
         $post->findOne($request->get('id'));
 
-    include '../post-action.php';
+    include 'html/post-action.php';

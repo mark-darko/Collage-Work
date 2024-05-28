@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <?= include('./html/header.php') ?>
+  <?= include('./html_separate/header.php') ?>
 </head>
 
 <body>
@@ -28,9 +28,9 @@
     </div><!-- END COLORLIB-MAIN -->
   </div><!-- END COLORLIB-PAGE -->
 
-  <?= include('./html/preloader.php') ?>
+  <?= include('./html_separate/preloader.php') ?>
 
-	<?= include('./html/footer.php') ?>
+	<?= include('./html_separate/footer.php') ?>
 
 </body>
 

@@ -16,4 +16,4 @@
 
     //$menu_html = $menu->get_menu();
 
-    include '../register.php';
+    include 'html/register.php';

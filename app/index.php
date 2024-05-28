@@ -7,4 +7,4 @@
 
     $posts = $postobject->findLatest();
 
-    include '../index.php';
+    include 'html/index.php';

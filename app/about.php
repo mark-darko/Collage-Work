@@ -3,4 +3,4 @@
 
     //$menu_html = $menu->get_menu();
 
-    include '../about.php';
+    include 'html/about.php';

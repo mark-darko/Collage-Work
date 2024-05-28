@@ -13,4 +13,4 @@
         $author->identity($post->user_id);
     }
 
-    include '../post.php';
+    include 'html/post.php';

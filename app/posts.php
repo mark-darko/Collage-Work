@@ -3,4 +3,4 @@
 
     //$menu_html = $menu->get_menu();
 
-    include '../posts.php';
+    include 'html/posts.php';

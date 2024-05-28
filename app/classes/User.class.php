@@ -74,24 +74,26 @@
         private $isAdmin;
     
         public Request $request;
-        private Mysql $db;
+        public Mysql $db;
     
         // Конструктор
         public function __construct($request, $db) {
             $this->request = $request;
             $this->db = $db;
 
-            if($this->request->token())
+            if ($this->request->token())
                 $this->identity();
         }
     
         // Методы
         public function load($data) {
-            foreach ($data as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->$key = $value;
-                }
-            }
+            //foreach ($data as $key => $value) {
+            //    if (property_exists($this, $key)) {
+            //        $this->$key = $value;
+            //    }
+            //}
+
+            $this->loadData($data);
 
             if ($this->isAdmin()) {
                 $this->isGuest = false;
@@ -140,7 +142,7 @@
                 }
             }
     
-            return count($this->errors) > 0;
+            return empty($this->errors);
         }
 
         public function validateLogin() {
@@ -166,7 +168,7 @@
                 }
             }
     
-            return count($this->errors) > 0;
+            return empty($this->errors);
         }
 
         public function login()

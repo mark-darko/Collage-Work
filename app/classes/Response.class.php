@@ -6,7 +6,7 @@
             $this->user = $user;
     
             if ($this->user->request->get('token') && !isset($this->user->id)) {
-                $this->redirect('/app');
+                $this->redirect('/app/index.php');
             }
         }
     

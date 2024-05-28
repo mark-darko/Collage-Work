@@ -5,9 +5,10 @@
         $user = new User($request, $db);
         $user->load($request->post());
         
-        if (!$user->validateRegister()) {
+        if ($user->validateRegister()) {
             if ($user->save()) {
-                header('Location: /app');
+                $response = new Response($user);
+                $response->redirect('/app/index.php');
                 exit;
             }
         }

@@ -36,6 +36,6 @@
     
         public function formatDate($date) {
             $datetime = new DateTime($date);
-            return $datetime->format('d.mY H:i:s');
+            return $datetime->format('Y-m-d H:i:s');
         }    
     }

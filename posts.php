@@ -14,13 +14,15 @@
 				<div class="container">
 					<div class="row d-flex">
 						<div class="col-xl-8 col-md-8 py-5 px-md-2">
-							<div class="row">
-								<div class="col-md-12 col-lg-12">
-									<div>
-										<a href="" class="btn btn-outline-success">📝 Создать пост</a>
+							<?php if (isset($user->id)) : ?>
+								<div class="row">
+									<div class="col-md-12 col-lg-12">
+										<div>
+											<a href="<?= $response->getLink('/app/post-action.php') ?>" class="btn btn-outline-success">📝 Создать пост</a>
+										</div>
 									</div>
 								</div>
-							</div>
+							<?php endif; ?>
 							<div class="row pt-md-4">
 								<!-- один пост/превью -->
 								<div class="col-md-12 col-xl-12">

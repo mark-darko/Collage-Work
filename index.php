@@ -17,30 +17,25 @@
 						<div class="col-xl-8 py-5 px-md-2">
 							<div class="row pt-md-4">
 								<!-- один пост/превью -->
-								<div class="col-md-12">
-									<div class="blog-entry ftco-animate d-md-flex">
-										<!-- 
-											изображение для поста 
-											<a href="single.html" class="img img-2"
-											style="background-image: url(images/image_1.jpg);"></a> 
-										-->
-										<div class="text text-2 pl-md-4">
-											<h3 class="mb-2"><a href="single.html">Название (тема) поста</a></h3>
-											<div class="meta-wrap">
-												<p class="meta">
-													<!-- <img src='avatar.jpg' /> -->
-													<span class="text text-3">login</span>
-													<span><i class="icon-calendar mr-2"></i>June 28, 2019</span>
-													<span><i class="icon-comment2 mr-2"></i>5 Comment</span>
-												</p>
+								<?php foreach( $posts as $post ) : ?>
+									<div class="col-md-12">
+										<div class="blog-entry ftco-animate d-md-flex">
+											<div class="text text-2 pl-md-4">
+												<h3 class="mb-2"><a href="single.html"><?= $post->title ?></a></h3>
+												<div class="meta-wrap">
+													<p class="meta">
+														<span class="text text-3"><?= $post->author->name ?></span>
+														<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
+														<span><i class="icon-comment2 mr-2"></i><?= $post->comment_count ?> Comment</span>
+													</p>
+												</div>
+												<p class="mb-4"><?= $post->preview_text ?></p>
+												<p><a href="<?= $response->getLink('/app/post.php', ['id' => $post->id]) ?>" class="btn-custom">Подробнее... <span
+															class="ion-ios-arrow-forward"></span></a></p>
 											</div>
-											<p class="mb-4">Preview post</p>
-											<p><a href="post.html" class="btn-custom">Подробнее... <span
-														class="ion-ios-arrow-forward"></span></a></p>
 										</div>
 									</div>
-								</div>
-
+								<?php endforeach ?>
 
 							</div><!-- END-->
 

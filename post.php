@@ -16,62 +16,32 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12 px-md-3 py-5">
-							<div>
-								<a href="" class="text-warning" style="font-size: 1.8em;" title="Редактировать">🖍</a>
-								<a href="" class="text-danger" style="font-size: 1.8em;" title="Удалить">🗑</a>
-							</div>
-
 							<div class="post">
-								<h1 class="mb-3">тема поста</h1>
+								<h1 class="mb-3"><?= $post->title ?></h1>
 								<div class="meta-wrap">
 									<p class="meta">
 										<!-- <img src='avatar.jpg' /> -->
-										<span class="text text-3">login</span>
-										<span><i class="icon-calendar mr-2"></i>June 28, 2019</span>
-										<span><i class="icon-comment2 mr-2"></i>6 Comment</span>
+										<span class="text text-3"><?= $author->name ?></span>
+										<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
+										<span><i class="icon-comment2 mr-2"></i><?= $post->comment_count ?> Comment</span>
 									</p>
 								</div>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius
-									mollitia
-									suscipit, quisquam doloremque distinctio perferendis et doloribus unde
-									architecto
-									optio laboriosam porro adipisci sapiente officiis nemo accusamus ad
-									praesentium?
-									Esse minima nisi et. Dolore perferendis, enim praesentium omnis, iste
-									doloremque
-									quia officia optio deserunt molestiae voluptates soluta architecto tempora.
-								</p>
-								<p>
-									Molestiae cupiditate inventore animi, maxime sapiente optio, illo est nemo
-									veritatis
-									repellat sunt doloribus nesciunt! Minima laborum magni reiciendis qui
-									voluptate
-									quisquam voluptatem soluta illo eum ullam incidunt rem assumenda eveniet
-									eaque
-									sequi
-									deleniti tenetur dolore amet fugit perspiciatis ipsa, odit. Nesciunt dolor
-									minima
-									esse vero ut ea, repudiandae suscipit!
-								</p>
-								<p>
-									<img src="images/image_1.jpg" alt="" class="img-fluid">
-								</p>
+
 								<div>
-									<a href="" class="text-warning" style="font-size: 1.8em;"
+									<?= $post->content ?>
+								</div>
+								
+								<div>
+									<a href="<?= $response->getLink('/app/post-action.php', ["id" => $post->id]) ?>" class="text-warning" style="font-size: 1.8em;"
 										title="Редактировать">🖍</a>
 									<a href="" class="text-danger" style="font-size: 1.8em;" title="Удалить">🗑</a>
 								</div>
 
 							</div>
 							<div class="comments pt-5 mt-5">
-								<h3 class="mb-5 font-weight-bold">6 комментариев</h3>
+								<h3 class="mb-5 font-weight-bold"><?= $post->comment_count ?> комментариев</h3>
 								<ul class="comment-list">
-									<li class="comment">
-										<!-- avatar
-												<div class="vcard bio">
-												<img src="images/person_1.jpg" alt="Image placeholder">
-											</div> -->
+									<!--<li class="comment">
 										<div class="comment-body">
 											<div class="d-flex justify-content-between">
 												<h3>John Doe</h3>
@@ -87,14 +57,9 @@
 												earum
 												impedit necessitatibus, nihil?
 											</p>
-											<!-- <p><a href="#" class="reply">Ответить</a></p> -->
 										</div>
 									</li>
 									<li class="comment">
-										<!-- avatar
-												<div class="vcard bio">
-												<img src="images/person_1.jpg" alt="Image placeholder">
-											</div> -->
 										<div class="comment-body">
 											<div class="d-flex justify-content-between">
 												<h3>John Doe</h3>
@@ -112,10 +77,8 @@
 												earum
 												impedit necessitatibus, nihil?
 											</p>
-											<!-- <p><a href="#" class="reply">Ответить</a></p> -->
 										</div>
-
-									</li>
+									</li>-->
 								</ul>
 								<!-- END comment-list -->
 								<div class="comment-form-wrap pt-5">

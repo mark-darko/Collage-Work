@@ -8,9 +8,6 @@
         $response = new Response($user);
         $response->redirect('/app/index.php');
         exit;
-    } else {
-        $author = new User($request, $db);
-        $author->identity($post->user_id);
     }
 
     include 'html/post.php';

@@ -21,7 +21,7 @@
 								<div class="meta-wrap">
 									<p class="meta">
 										<!-- <img src='avatar.jpg' /> -->
-										<span class="text text-3"><?= $author->name ?></span>
+										<span class="text text-3"><?= $post->author->name ?></span>
 										<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
 										<span><i class="icon-comment2 mr-2"></i><?= $post->comment_count ?> Comment</span>
 									</p>
@@ -41,7 +41,7 @@
 							<div class="comments pt-5 mt-5">
 								<h3 class="mb-5 font-weight-bold"><?= $post->comment_count ?> комментариев</h3>
 								<ul class="comment-list">
-									<!--<li class="comment">
+									<li class="comment">
 										<div class="comment-body">
 											<div class="d-flex justify-content-between">
 												<h3>John Doe</h3>
@@ -78,7 +78,7 @@
 												impedit necessitatibus, nihil?
 											</p>
 										</div>
-									</li>-->
+									</li>
 								</ul>
 								<!-- END comment-list -->
 								<div class="comment-form-wrap pt-5">

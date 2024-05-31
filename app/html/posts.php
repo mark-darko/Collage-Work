@@ -24,41 +24,42 @@
 								</div>
 							<?php endif; ?>
 							<div class="row pt-md-4">
-								<!-- один пост/превью -->
-								<div class="col-md-12 col-xl-12">
-									<div class="blog-entry ftco-animate d-md-flex">
-										<!-- 
-											изображение для поста 
-											<a href="single.html" class="img img-2"
-											style="background-image: url(images/image_1.jpg);"></a> 
-										-->
-										<div class="text text-2 pl-md-4">
-											<h3 class="mb-2"><a href="single.html">Название (тема) поста</a></h3>
-											<div class="meta-wrap">
-												<p class="meta">
-													<!-- <img src='avatar.jpg' /> -->
-													<span class="text text-3">login</span>
-													<span><i class="icon-calendar mr-2"></i>June 28, 2019</span>
-													<span><i class="icon-comment2 mr-2"></i>5 Comment</span>
-												</p>
-											</div>
-											<p class="mb-4">Preview post</p>
-											<div class="d-flex pt-1  justify-content-between">
-												<div>
-												<a href="post.html" class="btn-custom">
-													Подробнее... <span class="ion-ios-arrow-forward"></span></a>
-												</div>	
-												<div>
-													<a href="" class="text-warning" style="font-size: 1.8em;" title="Редактировать">🖍</a>
-													<a href="" class="text-danger" style="font-size: 1.8em;" title="Удалить">🗑</a>
+								<?php foreach( $posts as $post ) : ?>
+									<!-- один пост/превью -->
+									<div class="col-md-12 col-xl-12">
+										<div class="blog-entry ftco-animate d-md-flex">
+											<!-- 
+												изображение для поста 
+												<a href="single.html" class="img img-2"
+												style="background-image: url(images/image_1.jpg);"></a> 
+											-->
+											<div class="text text-2 pl-md-4">
+												<h3 class="mb-2"><a href="single.html"><?= $post->title ?></a></h3>
+												<div class="meta-wrap">
+													<p class="meta">
+														<!-- <img src='avatar.jpg' /> -->
+														<span class="text text-3"><?= $post->author->name ?></span>
+														<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
+														<span><i class="icon-comment2 mr-2"></i><?= $post->comment_count ?> Comment</span>
+													</p>
 												</div>
-
+												<p class="mb-4"><?= mb_strimwidth( $post->br2nl($post->content), 0, 15, "...") ?></p>
+												<div class="d-flex pt-1  justify-content-between">
+													<div>
+													<a href="<?= $response->getLink('/app/post.php', ['id' => $post->id]) ?>" class="btn-custom">
+														Подробнее... <span class="ion-ios-arrow-forward"></span></a>
+													</div>
+													<?php if($post->author->id == $user->id) : ?>
+														<div>
+															<a href="<?= $response->getLink('/app/post-action.php', ["id" => $post->id]) ?>" class="text-warning" style="font-size: 1.8em;" title="Редактировать">🖍</a>
+															<a href="" class="text-danger" style="font-size: 1.8em;" title="Удалить">🗑</a>
+														</div>
+													<?php endif ?>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-
-
+								<?php endforeach ?>
 							</div><!-- END-->
 
 							<!-- 

@@ -24,7 +24,7 @@
 
 							<form method="POST" action="/app/register.php" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['name'])) : ?>is-invalid<?php endif ?>" value="<?= $user->name ?? '' ?>" placeholder="Your Name" name="name">
+									<input type="text" class="form-control <?php if(isset($user->errors['name'])) : ?>is-invalid<?php endif ?>" value="<?= $user->name ?? '' ?>" placeholder="Ваше имя" name="name">
 
 									<?php if(isset($user->errors["name"])) : ?>
 										<?php foreach($user->errors["name"] as $error) : ?>
@@ -35,7 +35,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['surname'])) : ?>is-invalid<?php endif ?>" value="<?= $user->surname ?? '' ?>" placeholder="Your Surname" name="surname">
+									<input type="text" class="form-control <?php if(isset($user->errors['surname'])) : ?>is-invalid<?php endif ?>" value="<?= $user->surname ?? '' ?>" placeholder="Ваша фамилия" name="surname">
 
 									<?php if(isset($user->errors["surname"])) : ?>
 										<?php foreach($user->errors["surname"] as $error) : ?>
@@ -46,7 +46,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['patronymic'])) : ?>is-invalid<?php endif ?>" value="<?= $user->patronymic ?? '' ?>" placeholder="Your Patronymic"
+									<input type="text" class="form-control <?php if(isset($user->errors['patronymic'])) : ?>is-invalid<?php endif ?>" value="<?= $user->patronymic ?? '' ?>" placeholder="Ваше отчество"
 										name="patronymic">
 
 									<?php if(isset($user->errors["patronymic"])) : ?>
@@ -58,7 +58,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Your Login"
+									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Ваш логин"
 										name="login">
 
 									<?php if(isset($user->errors["login"])) : ?>
@@ -70,7 +70,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="email" class="form-control <?php if(isset($user->errors['email'])) : ?>is-invalid<?php endif ?>" value="<?= $user->email ?? '' ?>" placeholder="Your Email"
+									<input type="email" class="form-control <?php if(isset($user->errors['email'])) : ?>is-invalid<?php endif ?>" value="<?= $user->email ?? '' ?>" placeholder="Ваш email"
 										name="email">
 
 									<?php if(isset($user->errors["email"])) : ?>
@@ -82,7 +82,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['password'])) : ?>is-invalid<?php endif ?>" value="<?= $user->password ?? '' ?>" placeholder="Password"
+									<input type="password" class="form-control <?php if(isset($user->errors['password'])) : ?>is-invalid<?php endif ?>" value="<?= $user->password ?? '' ?>" placeholder="Пароль"
 										name="password">
 
 									<?php if(isset($user->errors["password"])) : ?>
@@ -94,7 +94,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['confirmPassword'])) : ?>is-invalid<?php endif ?>" value="<?= $user->confirmPassword ?? '' ?>" placeholder="Password repeat"
+									<input type="password" class="form-control <?php if(isset($user->errors['confirmPassword'])) : ?>is-invalid<?php endif ?>" value="<?= $user->confirmPassword ?? '' ?>" placeholder="Повтор пароля"
 										name="confirmPassword">
 
 									<?php if(isset($user->errors["confirmPassword"])) : ?>
@@ -111,7 +111,7 @@
 										<input class="form-check-input is-invalid" type="checkbox" value=""
 											id="rules" aria-describedby="invalidCheck3Feedback" required>
 										<label class="form-check-label" for="rules">
-											Rules
+											Согласен с правилами использования
 										</label>
 										<div id="rulesFeedback" class="invalid-feedback">
 											Необходимо согласиться с правилами регистрации.
@@ -119,7 +119,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<input type="submit" value="Регистрация" class="btn btn-primary py-3 px-5">
+									<input type="submit" value="Регистрация" class="btn btn-primary py-3 px-5" style="width: 100%;">
 								</div>
 							</form>
 

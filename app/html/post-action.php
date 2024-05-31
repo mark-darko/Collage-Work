@@ -36,17 +36,6 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($post->errors['preview_text'])) : ?>is-invalid<?php endif ?>" value="<?= $post->preview_text ?? '' ?>" placeholder="Post preview" name="preview_text">
-
-									<?php if(isset($user->errors["preview_text"])) : ?>
-										<?php foreach($user->errors["preview_text"] as $error) : ?>
-											<div class="invalid-feedback">
-												<?= $error ?>
-											</div>
-										<?php endforeach ?>
-									<?php endif ?>
-								</div>
-								<div class="form-group">
 									<textarea id="" cols="30" rows="10" class="form-control <?php if(isset($post->errors['content'])) : ?>is-invalid<?php endif ?>" placeholder="Post content" name="content"><?= $post->br2nl($post->content) ?? '' ?></textarea> 
 
 									<?php if(isset($user->errors["content"])) : ?>

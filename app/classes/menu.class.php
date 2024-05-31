@@ -1,7 +1,7 @@
 <?php
     class Menu {
         private $menu;
-        private $active_link;
+        public $active_link;
         private $response;
         private $user;
 

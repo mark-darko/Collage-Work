@@ -5,8 +5,8 @@
 
     $post = new Post($user);
 
-    if ($request->isPost) {       
-        if ($user->id && !$user->isAdmin()) {
+    if ($request->isPost) {
+        if (($user->id && $user->isAdmin)) {
             $post->load($request->post());
 
             //if ($post->validate()) { доделать validatedata

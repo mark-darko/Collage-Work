@@ -14,12 +14,41 @@
       <section class="ftco-about img ftco-section ftco-no-pt ftco-no-pb" id="about-section">
         <div class="container-fluid px-0">
           <div class="row d-flex mt-5">
-            <div class="col-md-6 d-flex align-items-center">
-              <div class="text px-4 pt-5 pt-md-0 px-md-4 pr-md-5 ftco-animate">
-                <h2 class="mb-4">I'm <span>Andrea Moore</span> a Scotish Blogger &amp; Explorer</h2>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
-                  paradisematic country, in which roasted parts of sentences fly into your mouth. It is a paradisematic
-                  country, in which roasted parts of sentences fly into your mouth.</p>
+            <div class="d-flex align-items-center">
+              <div class="text px-4 pt-5 pt-md-0 px-md-4 pr-md-5 ftco-animate" style="margin-left: 15px;">
+                <h2 class="mb-4"><span>Роли в системе:</span></h2>
+                <h5>- гость, не авторизованный пользователь;<br>
+                    - автор, авторизованный пользователь;<br>
+                    - администратор системы, авторизованный пользователь с правами управления системой.</h5>
+
+                <h2 class="mb-4 pt-5"><span>Функционал гостя:</span></h2>
+                <h5>1) просматривать ленту постов;<br>
+                    2) открывать страницу со всеми постами;<br>
+                    3) открывать страницу поста с детальной информацией по посту;<br>
+                    4) регистрироваться в системе;<br>
+                    5) авторизоваться, после авторизации переходит в статус автора.</h5>
+
+                <h2 class="mb-4 pt-5"><span>Функционал автора:</span></h2>
+                <h5>1) просматривать ленту постов;<br>
+                    2) открывать страницу со всеми постами;<br>
+                    3) открывать страницу поста с детальной информацией по посту;<br>
+                    4) написание поста;<br>
+                    5) редактирование поста и удаление поста. Удалять посты возможно только те, у которых нет комментариев;<br>
+                    6) написание комментариев на любой пост (кроме своих), ответить на чей-то комментарий у своих постов.</h5>
+
+                <h2 class="mb-4 pt-5"><span>Функционал администратора:</span></h2>
+                <h5>1) просматривать ленту постов;<br>
+                    2) открывать страницу со всеми постами;<br>
+                    3) открывать страницу поста с детальной информацией по посту;<br>
+                    4) удаление любого поста. Если у поста были комментарии, то они так же удаляются;<br>
+                    5) удаление любого комментария к посту;<br>
+                    6) просмотр списка пользователей в системе;<br>
+                    7) блокировка входа пользователя в систему на определенное время либо навсегда. Если доступ пользователю блокируется на всегда, то удаляются все посты (с веткой комментариев к посту) этого пользователя.</h5>
+
+                <h2 class="mb-4 pt-5"><span>Информация о разработчике:</span></h2>
+                <h5>Разработчик: Ешкилев Марк Евгеньевич (либо MARK.DARKO)<br>
+                    Ученик группы ИВ1-22-2<br>
+                    Проект по учебной практике</h5>
               </div>
             </div>
           </div>

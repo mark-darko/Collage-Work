@@ -12,6 +12,7 @@
         public $password;
         public $confirmPassword;
         public $token;
+        public $avatar_url;
         public $errors = [];
     
         // Валидация
@@ -67,11 +68,11 @@
         ];
     
         // Авторизация
-        private $adminLogin = 'admin';
-        private $adminPassword = 'password';
+        //private $adminLogin = 'admin';
+        //private $adminPassword = 'password';
 
-        private $isGuest;
-        private $isAdmin;
+        //private $isGuest;
+        public $isAdmin = false;
     
         public Request $request;
         public Mysql $db;
@@ -95,15 +96,10 @@
 
             $this->loadData($data);
 
-            if ($this->isAdmin()) {
-                $this->isGuest = false;
+            if ($this->isAdmin())
                 $this->isAdmin = true;
-            } else {
-                $this->isGuest = true;
-                $this->isAdmin = false;
-            }
         }
-    
+
         public function validateRegister() {
             foreach ($this->validationRulesRegister as $field => $rules) {
                 foreach ($rules as $rule => $value) {
@@ -209,7 +205,12 @@
         }
 
         public function isAdmin() {
-            return $this->login === $this->adminLogin && $this->password === $this->adminPassword;
+            $user_role = $this->db->queryAssoc("SELECT roles.name AS role_name
+            FROM users
+            JOIN roles ON users.role_id = roles.id WHERE users.id='{$this->id}'")['role_name'];
+
+            return $user_role == "admin" ? true : false;
+            //return $this->login === $this->adminLogin && $this->password === $this->adminPassword;
         }
 
         public function logout()

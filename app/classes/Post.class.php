@@ -4,7 +4,7 @@
 
         private $tableName = 'posts';
         public $id;
-        public $preview_text;
+        //public $preview_text;
         public $title;
         public $content;
         public $user_id;
@@ -31,11 +31,37 @@
         {
             $post = $this->user->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = '{$id}'");
             if ($post) {
-                $this->load($post);
-                $this->load($this->user->db->queryAssoc("SELECT COUNT(*) AS comment_count FROM comments WHERE post_id = '{$id}'"));
+                $user = new User($this->user->request, $this->user->db);
+                $user->identity($post["user_id"]);
+
+                $this->load(array_merge($post, $this->user->db->queryAssoc("SELECT COUNT(*) AS comment_count FROM comments WHERE post_id = '{$id}'"), ["author" => $user]));
 
                 return true;
             } else return false;       
+        }
+
+        public function getComments()
+        {
+            $query = "SELECT comments.* 
+            FROM posts 
+            JOIN comments ON posts.id = comments.post_id
+            WHERE posts.id = '{$this->id}'
+            ORDER BY comments.created_at DESC";
+
+            $comments = $this->user->db->query($query)->fetch_all(MYSQLI_ASSOC);
+
+            foreach($comments as $key => $comment) {
+                if ($comment['answer_id']) {
+                    $id = array_search($comment['answer_id'], array_column($comments, 'id'));
+                    unset($comment['answer_id']);
+                    $comments[$id]["answers"][] = $comment;
+                    unset($comments[$key]);
+                } else {
+                    unset($comments[$key]["answer_id"]);
+                }
+            }
+
+            return $comments;
         }
 
         public function displayDate($date)
@@ -45,11 +71,11 @@
 
         public function findAll($limit = null)
         {
-            $query = "SELECT posts.*, COUNT(comments.id) AS comment_count 
-            FROM posts 
-            LEFT JOIN comments ON posts.id = comments.post_id 
-            GROUP BY posts.id 
-            ORDER BY posts.created_at DESC";
+            $query = "SELECT posts.*, COUNT(comments.id) AS comment_count
+                    FROM posts
+                    LEFT JOIN comments ON posts.id = comments.post_id
+                    GROUP BY posts.id
+                    ORDER BY posts.created_at DESC";
 
             if ($limit)
                 $query .= " LIMIT {$limit}";
@@ -81,12 +107,13 @@
         public function save()
         {
             if ($this->id) {
-                $sql = "UPDATE {$this->tableName} SET preview_text='{$this->preview_text}', title='{$this->title}', content='{$this->content}' WHERE id={$this->id}";
+                //$sql = "UPDATE {$this->tableName} SET preview_text='{$this->preview_text}', title='{$this->title}', content='{$this->content}' WHERE id={$this->id}";
+                $sql = "UPDATE {$this->tableName} SET title='{$this->title}', content='{$this->nl2br($this->content)}' WHERE id={$this->id}";
                 $this->user->db->query($sql);
             } else {
-                $sql = "INSERT INTO {$this->tableName} (preview_text, title, content, user_id) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO {$this->tableName} (title, content, user_id) VALUES (?, ?, ?)";
                 $stmt = $this->user->db->prepare($sql);
-                return $stmt->execute([$this->preview_text, $this->title, $this->nl2br($this->content), $this->user->id]);
+                return $stmt->execute([$this->title, $this->nl2br($this->content), $this->user->id]);
             }
         }
     }

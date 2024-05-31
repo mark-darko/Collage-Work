@@ -21,7 +21,7 @@
 						<div class="col-lg-6 d-flex">
 							<form action="/app/login.php" method="POST" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Your Login"
+									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Ваш логин"
 										name="login">
 
 									<?php if(isset($user->errors["login"])) : ?>
@@ -33,11 +33,11 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" placeholder="Password"
+									<input type="password" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" placeholder="Пароль"
 										name="password">
 								</div>
 								<div class="form-group">
-									<input type="submit" value="Вход" class="btn btn-primary py-3 px-5">
+									<input type="submit" value="Вход" class="btn btn-primary py-3 px-5" style="width: 100%;">
 								</div>
 							</form>
 						</div>

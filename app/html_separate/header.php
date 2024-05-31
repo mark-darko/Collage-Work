@@ -1,4 +1,4 @@
-<title>Информационная система - .....</title>
+<title>Информационная система - <?= $menu_array[array_search(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array_column($menu_array, 'link'))]["title"] ?></title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 

@@ -1,12 +1,12 @@
 <?php
 $menu_array = [
-    'Главная' => '/app/index.php',
-    'Блоги' => '/app/posts.php',
-    'Пользователи' => '/app/users.php',
-    'О нас' => '/app/about.php',
-    'Вход' => '/app/login.php',
-    'Регистрация' => '/app/register.php',
-    'Выход' => '/app/logout.php',
+    ["title" => "Главная", "link" => "/app/index.php"],
+    ["title" => "Блоги", "link" => "/app/posts.php"],
+    ["title" => "Пользователи", "link" => "/app/users.php"],
+    ["title" => "О нас", "link" => "/app/about.php"],
+    ["title" => "Вход", "link" => "/app/login.php"],
+    ["title" => "Регистрация", "link" => "/app/register.php"],
+    ["title" => "Выход", "link" => "/app/logout.php"],
 ];
 
 $dbConfig = [

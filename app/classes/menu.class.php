@@ -25,11 +25,11 @@
 
             $links = '';
 
-            foreach ($this->menu as $title => $page) {
-                if ($this->active_link == $page)
-                    $links .= '<li class="colorlib-active"><a href="' . $this->response->getLink($page) .'">' . $title . '</a></li>';
+            foreach ($this->menu as $item) {
+                if ($this->active_link == $item["link"])
+                    $links .= '<li class="colorlib-active"><a href="' . $this->response->getLink($item["link"]) .'">' . $$item["title"] . '</a></li>';
                 else
-                    $links .= '<li><a href="' . $this->response->getLink($page) .'">' . $title . '</a></li>';
+                    $links .= '<li><a href="' . $this->response->getLink($item["link"]) .'">' . $item["title"] . '</a></li>';
             }
 
             return $top_side . $links . $bottom_side;

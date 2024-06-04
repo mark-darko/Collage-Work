@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
 	<?= include('./html_separate/header.php') ?>
@@ -13,10 +13,17 @@
 		<div id="colorlib-main">
 			<section class="ftco-no-pt ftco-no-pb">
 				<div class="container">
+					<?php if ($user->isBlocked ) : ?>
+						<div style="background-color: orange; text-align: center; border-radius: 10px; padding: 8px 0; margin: 0 40px;">Вы были заблокированы! <?= $user->endBlocking ? '<br>Дата разблокировки: ' . $user->formatDate($user->endBlocking) : 'Перманентно!' ?></div>
+					<?php endif; ?>
 					<div class="row d-flex">
 						<div class="col-xl-8 py-5 px-md-2">
 							<div class="row pt-md-4">
 								<!-- один пост/превью -->
+								<?php if (empty($posts)) : ?>
+									<p style="font-size: 20px; padding: 0 20px; font-weight: 600;">Постов пока, что нет! Вы можете быть первым!</p>	
+								<?php endif ?>
+								
 								<?php foreach( $posts as $post ) : ?>
 									<div class="col-md-12">
 										<div class="blog-entry ftco-animate d-md-flex">
@@ -26,7 +33,7 @@
 													<p class="meta">
 														<span class="text text-3"><?= $post->author->name ?></span>
 														<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
-														<span><i class="icon-comment2 mr-2"></i><?= $post->comment_count ?> Comment</span>
+														<span><i class="icon-comment2 mr-2"></i><?= $post->pluralize($post->comment_count, 'Комментарий', 'Комментария', 'Комментариев') ?></span>
 													</p>
 												</div>
 												<p class="mb-4"><?= mb_strimwidth( $post->br2nl($post->content), 0, 15, "...") ?></p>

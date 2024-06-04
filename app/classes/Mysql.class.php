@@ -1,8 +1,12 @@
 <?php
     class Mysql extends mysqli {
-        public $isConnected;
+        public bool $isConnected;
 
-        public function __construct(array $dbConfig)
+        /**
+         * Конструктор класса
+         * @param array $dbConfig
+         */
+        public function __construct($dbConfig)
         {
             parent::__construct(
                 $dbConfig['host'],
@@ -17,14 +21,26 @@
             $this->set_charset('utf8');
         }
 
-        public function queryAssoc(string $query)
+        /**
+         * Получает из бд данные в виде ассоциативного массива
+         * @param string $query
+         * @return array
+         */
+        public function queryAssoc($query)
         {
             $result = $this->query($query);
 
             return $result->fetch_assoc();
         }
 
-        public function isUnique(string $table, string $field, string $value): bool
+        /**
+         * Уникально ли значение в бд
+         * @param string $table
+         * @param string $fiels
+         * @param string $value
+         * @return bool
+         */
+        public function isUnique($table, $field, $value)
         {
             $query = "SELECT COUNT(*) FROM $table WHERE $field = '$value'";
             $result = $this->query($query);

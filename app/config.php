@@ -16,3 +16,15 @@ $dbConfig = [
     'database' => 'u1947760_ucheb',
     'port' => 3306,
 ];
+
+$permissions = [
+    'isGuest' => [
+        '/app/users.php',
+        '/app/temp-block.php',
+    ],
+    'isBlocked' => [
+        '/app/post-action.php',
+        '/app/temp-block.php',
+        '/app/users.php',
+    ]
+];

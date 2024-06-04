@@ -1,18 +1,19 @@
 <?php
     class Post extends Data {
-        private $user;
+        private string $tableName = 'posts';
+        private User $user;
+        public ?int $id = null;
+        public string $title;
+        public ?string $content = null;
+        public string $created_at;
+        public int $comment_count;
+        public User $author;
 
-        private $tableName = 'posts';
-        public $id;
-        //public $preview_text;
-        public $title;
-        public $content;
-        public $user_id;
-        public $created_at;
-        public $comment_count;
-        public $author;
-
-        public function __construct(User $user)
+        /**
+         * Конструктор класса
+         * @param User $user
+         */
+        public function __construct($user)
         {
             $this->user = $user;
         }
@@ -22,53 +23,74 @@
 
         }
 
+        /**
+         * Загружает данные в класс с помощью родительского класса
+         * @param array $data
+         */
         public function load($data)
         {
             $this->loadData($data);
         }
 
+        /**
+         * Поиск одного поста по id
+         * @param int $id
+         * @return bool
+         */
         public function findOne($id)
         {
             $post = $this->user->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = '{$id}'");
-            if ($post) {
-                $user = new User($this->user->request, $this->user->db);
-                $user->identity($post["user_id"]);
+            
+            if (!$post) return false;
 
-                $this->load(array_merge($post, $this->user->db->queryAssoc("SELECT COUNT(*) AS comment_count FROM comments WHERE post_id = '{$id}'"), ["author" => $user]));
+            $user = new User($this->user->request, $this->user->db);
+            $user->identity($post["user_id"]);
 
-                return true;
-            } else return false;       
+            $this->load(array_merge($post, $this->user->db->queryAssoc("SELECT COUNT(*) AS comment_count FROM comments WHERE post_id = '{$id}'"), ["author" => $user]));   
+
+            return true;
         }
 
+        /**
+         * Получить комменатрия текущего поста
+         * @return array
+         */
         public function getComments()
         {
-            $query = "SELECT comments.* 
+            $query = "SELECT comments.id
             FROM posts 
             JOIN comments ON posts.id = comments.post_id
             WHERE posts.id = '{$this->id}'
-            ORDER BY comments.created_at DESC";
+            ORDER BY comments.id DESC";
 
-            $comments = $this->user->db->query($query)->fetch_all(MYSQLI_ASSOC);
+            $comments = $this->user->db->query($query)->fetch_all() ?? [];
 
-            foreach($comments as $key => $comment) {
-                if ($comment['answer_id']) {
-                    $id = array_search($comment['answer_id'], array_column($comments, 'id'));
-                    unset($comment['answer_id']);
-                    $comments[$id]["answers"][] = $comment;
-                    unset($comments[$key]);
-                } else {
-                    unset($comments[$key]["answer_id"]);
-                }
+            $result = [];
+            foreach ($comments as $comment_id) {
+                $commentObject = new Comment($this->user);
+                $commentObject->getComment($comment_id[0]);
+
+                $result[] = $commentObject;
             }
 
-            return $comments;
+            return $result;
         }
 
+        /**
+         * Отображение даты методом родительского класса
+         * @param string $date
+         * @return string|bool
+         */
         public function displayDate($date)
         {
             return $this->formatDate($date);
         }
 
+        /**
+         * Получение всех постов или с лимитом
+         * @param ?int $limit
+         * @return array
+         */
         public function findAll($limit = null)
         {
             $query = "SELECT posts.*, COUNT(comments.id) AS comment_count
@@ -99,21 +121,78 @@
             return $result;
         }
 
-        public function findLatest(int $limit = 10)
+        /**
+         * Получение последних 10 постов или более
+         * @param ?int $limit
+         * @return array
+         */
+        public function findLatest($limit = 10)
         {
             return $this->findAll($limit);
         }
 
+        /**
+         * Сохранение данных поста либо добавление поста
+         * @return bool|mysqli_result
+         */
         public function save()
         {
             if ($this->id) {
-                //$sql = "UPDATE {$this->tableName} SET preview_text='{$this->preview_text}', title='{$this->title}', content='{$this->content}' WHERE id={$this->id}";
                 $sql = "UPDATE {$this->tableName} SET title='{$this->title}', content='{$this->nl2br($this->content)}' WHERE id={$this->id}";
-                $this->user->db->query($sql);
+                return $this->user->db->query($sql);
             } else {
                 $sql = "INSERT INTO {$this->tableName} (title, content, user_id) VALUES (?, ?, ?)";
                 $stmt = $this->user->db->prepare($sql);
                 return $stmt->execute([$this->title, $this->nl2br($this->content), $this->user->id]);
             }
+        }
+
+        /**
+         * Удаляет пост, а так же все комментарии
+         */
+        public function deletePost()
+        {
+            if ($this->user->isAdmin || ($this->author->id == $this->user->id && $this->comment_count == 0))
+            $sql = "DELETE FROM {$this->tableName} WHERE `id`={$this->id}";
+            $this->user->db->query($sql);
+            $this->deleteAllComments();
+        }
+
+        /**
+         * Создает комментарий для поста
+         * @param string $content
+         * @param ?int $answer_id
+         * @return bool
+         */
+        public function createComment($content, $answer_id = null)
+        {
+            $commentObject = new Comment($this->user);
+            if ($answer_id)
+                return $commentObject->createComment($this->id, $content, $answer_id);
+            else
+                return $commentObject->createComment($this->id, $content);
+        }
+
+        /**
+         * Удаление комментария с веткой по id
+         * @return bool|void
+         */
+        public function deleteComment($comment_id)
+        {
+            if (!$this->user->isAdmin) return false;
+            $comment = new Comment($this->user);
+            $comment->getComment($comment_id);
+            $comment->deleteComment();
+        }
+
+        /**
+         * Удаление всех комментариев текущего экземпляра
+         * @return bool|mysqli_result
+         */
+        public function deleteAllComments()
+        {
+            if (!$this->user->isAdmin) return false;
+            $sql = "DELETE FROM `comments` WHERE `post_id`={$this->id}";
+            return $this->user->db->query($sql);
         }
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
 	<?= include('./html_separate/header.php') ?>
@@ -17,16 +17,16 @@
 						<div class="col-md-12 mb-1">
 							<h2 class="h3">Временная блокировка пользователя</h2>
 							<div>
-								Пользователь: login
+								Пользователь: <?= $selectedUser->name . ' ' . $selectedUser->surname ?>
 							</div>
 						</div>
 					</div>
 					<div class="row block-9">
 						<div class="col-lg-6 d-flex">
-							<form action="#" class="bg-light p-5 contact-form">
+							<form action="<?= $response->getLink('/app/temp-block.php', ['user_id' => $request->get('user_id')]) ?>" method="POST" class="bg-light p-5 contact-form">
 								<div class="form-group">
 									<label for="date-block">Дата временной блокировки</label>
-									<input type="text" class="form-control" id="date-block" name="date_block" value=""
+									<input type="datetime-local" class="form-control" id="date-block" name="date_block" value=""
 										required>
 								</div>
 								<div class="form-group">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
 	<?= include('./html_separate/header.php') ?>
@@ -14,18 +14,15 @@
 				<div class="container">
 					<div class="row d-flex contact-info">
 						<div class="col-md-12 mb-1">
-							<h2 class="h3">Создание поста</h2>
+							<h2 class="h3"><?= $request->get('id') ? 'Редактирование поста' : 'Создание поста' ?></h2>
 						</div>
 
 					</div>
 					<div class="row block-9">
 						<div class="col-lg-6 d-flex">
-
-							<form action="<?= $response->getLink('/app/post-action.php') ?>" method="POST" class="bg-light p-5 contact-form">
-								<input type="text" style="display: none;" value="<?= $post->id ?? '' ?>" name="id">
-
+							<form action="<?= $request->get('id') ? $response->getLink('/app/post-action.php', ['id' => $request->get('id')]) : $response->getLink('/app/post-action.php') ?>" method="POST" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($post->errors['title'])) : ?>is-invalid<?php endif ?>" value="<?= $post->title ?? '' ?>" placeholder="Post title" name="title">
+									<input type="text" class="form-control <?php if(isset($post->errors['title'])) : ?>is-invalid<?php endif ?>" value="<?= $post->title ?? '' ?>" placeholder="Название поста" name="title">
 
 									<?php if(isset($user->errors["title"])) : ?>
 										<?php foreach($user->errors["title"] as $error) : ?>
@@ -36,7 +33,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<textarea id="" cols="30" rows="10" class="form-control <?php if(isset($post->errors['content'])) : ?>is-invalid<?php endif ?>" placeholder="Post content" name="content"><?= $post->br2nl($post->content) ?? '' ?></textarea> 
+									<textarea id="" cols="30" rows="10" class="form-control <?php if(isset($post->errors['content'])) : ?>is-invalid<?php endif ?>" placeholder="Контент поста" name="content"><?= $post->br2nl($post->content) ?? '' ?></textarea> 
 
 									<?php if(isset($user->errors["content"])) : ?>
 										<?php foreach($user->errors["content"] as $error) : ?>
@@ -48,7 +45,7 @@
 								</div>
 								
 								<div class="form-group">
-									<input type="submit" value="Создать пост" class="btn btn-primary py-3 px-5">
+									<input type="submit" value="<?= $request->get('id') ? 'Редактировать пост' : 'Создать пост' ?>" class="btn btn-primary py-3 px-5">
 								</div>
 							</form>
 

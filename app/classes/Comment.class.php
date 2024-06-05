@@ -89,7 +89,7 @@
         public function getComments($post_id)
         {
             $query = "SELECT `post_id`,`id`
-            FROM `{$this->id}`
+            FROM `{$this->tableName}`
             WHERE `post_id` = '{$post_id}'
             ORDER BY `id` DESC";
 

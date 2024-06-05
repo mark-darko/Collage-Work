@@ -42,7 +42,7 @@
          */
         public function isUnique($table, $field, $value)
         {
-            $query = "SELECT COUNT(*) FROM $table WHERE $field = '$value'";
+            $query = "SELECT COUNT(*) FROM `$table` WHERE `$field` = '$value'";
             $result = $this->query($query);
             $row = $result->fetch_row();
             return $row[0] === '0';

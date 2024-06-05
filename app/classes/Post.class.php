@@ -39,14 +39,14 @@
          */
         public function findOne($id)
         {
-            $post = $this->user->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = '{$id}'");
+            $post = $this->user->db->queryAssoc("SELECT * FROM `{$this->tableName}` WHERE `id`='{$id}'");
             
             if (!$post) return false;
 
             $user = new User($this->user->request, $this->user->db);
             $user->identity($post["user_id"]);
 
-            $this->load(array_merge($post, $this->user->db->queryAssoc("SELECT COUNT(*) AS comment_count FROM comments WHERE post_id = '{$id}'"), ["author" => $user]));   
+            $this->load(array_merge($post, $this->user->db->queryAssoc("SELECT COUNT(*) AS comment_count FROM `comments` WHERE `post_id`='{$id}'"), ["author" => $user]));   
 
             return true;
         }
@@ -57,23 +57,8 @@
          */
         public function getComments()
         {
-            $query = "SELECT comments.id
-            FROM posts 
-            JOIN comments ON posts.id = comments.post_id
-            WHERE posts.id = '{$this->id}'
-            ORDER BY comments.id DESC";
-
-            $comments = $this->user->db->query($query)->fetch_all() ?? [];
-
-            $result = [];
-            foreach ($comments as $comment_id) {
-                $commentObject = new Comment($this->user);
-                $commentObject->getComment($comment_id[0]);
-
-                $result[] = $commentObject;
-            }
-
-            return $result;
+            $commentObject = new Comment($this->user);
+            return $commentObject->getComments($this->id);
         }
 
         /**
@@ -93,11 +78,11 @@
          */
         public function findAll($limit = null)
         {
-            $query = "SELECT posts.*, COUNT(comments.id) AS comment_count
-                    FROM posts
-                    LEFT JOIN comments ON posts.id = comments.post_id
-                    GROUP BY posts.id
-                    ORDER BY posts.created_at DESC";
+            $query = "SELECT `posts.*`, COUNT(`comments.id`) AS comment_count
+                    FROM `{$this->id}`
+                    LEFT JOIN `comments` ON `posts.id` = `comments.post_id`
+                    GROUP BY `posts.id`
+                    ORDER BY `posts.created_at` DESC";
 
             if ($limit)
                 $query .= " LIMIT {$limit}";
@@ -138,10 +123,10 @@
         public function save()
         {
             if ($this->id) {
-                $sql = "UPDATE {$this->tableName} SET title='{$this->title}', content='{$this->nl2br($this->content)}' WHERE id={$this->id}";
+                $sql = "UPDATE `{$this->tableName}` SET `title`='{$this->title}', `content`='{$this->nl2br($this->content)}' WHERE `id`='{$this->id}'";
                 return $this->user->db->query($sql);
             } else {
-                $sql = "INSERT INTO {$this->tableName} (title, content, user_id) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO `{$this->tableName}` (title, content, user_id) VALUES (?, ?, ?)";
                 $stmt = $this->user->db->prepare($sql);
                 return $stmt->execute([$this->title, $this->nl2br($this->content), $this->user->id]);
             }
@@ -149,11 +134,13 @@
 
         /**
          * Удаляет пост, а так же все комментарии
+         * @return bool|void
          */
         public function deletePost()
         {
-            if ($this->user->isAdmin || ($this->author->id == $this->user->id && $this->comment_count == 0))
-            $sql = "DELETE FROM {$this->tableName} WHERE `id`={$this->id}";
+            if ((($this->author->id == $this->user->id && $this->comment_count > 0) || $this->author->id !== $this->user->id) && $this->user->isGuest || ($this->user->isAdmin && $this->user->isBlocked)) return false;
+
+            $sql = "DELETE FROM `{$this->tableName}` WHERE `id`='{$this->id}'";
             $this->user->db->query($sql);
             $this->deleteAllComments();
         }
@@ -181,7 +168,7 @@
         {
             if (!$this->user->isAdmin) return false;
             $comment = new Comment($this->user);
-            $comment->getComment($comment_id);
+            $comment->getComment($this->id, $comment_id);
             $comment->deleteComment();
         }
 
@@ -191,8 +178,8 @@
          */
         public function deleteAllComments()
         {
-            if (!$this->user->isAdmin) return false;
-            $sql = "DELETE FROM `comments` WHERE `post_id`={$this->id}";
+            if ($this->user->isGuest) return false;
+            $sql = "DELETE FROM `comments` WHERE `post_id`='{$this->id}'";
             return $this->user->db->query($sql);
         }
     }

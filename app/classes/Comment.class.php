@@ -33,7 +33,7 @@
 
             if ($data['answer_id']) {
                 $this->answer_comment = new static($this->user);
-                $this->answer_comment->getComment($data['answer_id']);
+                $this->answer_comment->getComment($data['post_id'], $data['answer_id']);
             }
         }
 
@@ -48,7 +48,7 @@
         {
             if ($this->user->isBlocked) return false;
 
-            $post = $this->user->db->queryAssoc("SELECT `user_id` FROM `posts` WHERE id = '{$post_id}'");
+            $post = $this->user->db->queryAssoc("SELECT `user_id` FROM `posts` WHERE `id`='{$post_id}'");
 
             if (!$post || ($post['user_id'] == $this->user->id && !$answer_id) || ($post['user_id'] != $this->user->id && $answer_id)) return false;
 
@@ -56,7 +56,7 @@
             $stmt = $this->user->db->prepare($sql);
 
             if ($answer_id) {
-                $answer_comment = $this->user->db->queryAssoc("SELECT `id` FROM `{$this->tableName}` WHERE id = '{$answer_id}'");
+                $answer_comment = $this->user->db->queryAssoc("SELECT `id` FROM `{$this->tableName}` WHERE `id`='{$answer_id}'");
                 if ($answer_comment)
                     return $stmt->execute([$post_id, $this->nl2br($content), $answer_id, $this->user->id]);
                 else
@@ -68,12 +68,13 @@
 
         /**
          * Получает данные комментария и загружает его
+         * @param int $post_id
          * @param int $comment_id
          * @return void|bool
          */
-        public function getComment($comment_id)
+        public function getComment($post_id, $comment_id)
         {
-            $comment = $this->user->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE `id`='{$comment_id}'");
+            $comment = $this->user->db->queryAssoc("SELECT * FROM `{$this->tableName}` WHERE `id`='{$comment_id}' AND `post_id`='{$post_id}'");
             if ($comment)
                 $this->load($comment);
             else
@@ -81,19 +82,47 @@
         }
 
         /**
+         * Получить комменатрия текущего поста
+         * @param int $post_id
+         * @return array
+         */
+        public function getComments($post_id)
+        {
+            $query = "SELECT `post_id`,`id`
+            FROM `{$this->id}`
+            WHERE `post_id` = '{$post_id}'
+            ORDER BY `id` DESC";
+
+            $comments = $this->user->db->query($query)->fetch_all() ?? [];
+
+            $result = [];
+            foreach ($comments as $comment_id) {
+                $commentObject = new Comment($this->user);
+                $commentObject->getComment($comment_id[0],$comment_id[1]);
+
+                $result[] = $commentObject;
+            }
+
+            return $result;
+        }
+
+        /**
          * Удаление комментария с веткой по id
+         * @return bool|void
          */
         public function deleteComment()
         {
-            $comment_answer_id = $this->user->db->queryAssoc("SELECT `id` FROM {$this->tableName} WHERE `answer_id`='{$this->id}'")['id'];
+            if ($this->user->isBlocked || $this->user->isGuest) return false;
+
+            $comment_answer_id = $this->user->db->queryAssoc("SELECT `post_id`,`id` FROM `{$this->tableName}` WHERE `answer_id`='{$this->id}'");
 
             if ($comment_answer_id) {
                 $comment = new static($this->user);
-                $comment->getComment($comment_answer_id);
+                $comment->getComment($comment_answer_id['post_id'], $comment_answer_id['id']);
                 $comment->deleteComment();
             }
             
-            $sql = "DELETE FROM `comments` WHERE `id`={$this->id}";
+            $sql = "DELETE FROM `comments` WHERE `id`='{$this->id}'";
             $this->user->db->query($sql);
         }
     }

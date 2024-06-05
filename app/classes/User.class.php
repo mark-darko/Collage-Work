@@ -197,13 +197,13 @@
          */
         public function login()
         {
-            $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE login = '{$this->login}'");
+            $user = $this->db->queryAssoc("SELECT * FROM `{$this->tableName}` WHERE `login`= '{$this->login}'");
 
             if ($user && password_verify($this->password, $user["password"])) {
                 $this->load($user);
 
                 $this->token = bin2hex(random_bytes(32));
-                $sql = "UPDATE {$this->tableName} SET token='{$this->token}' WHERE id={$this->id}";
+                $sql = "UPDATE `{$this->tableName}` SET `token`='{$this->token}' WHERE `id`='{$this->id}'";
                 $this->db->query($sql);
 
             } else
@@ -219,9 +219,9 @@
         public function identity($id = null)
         {
             if ($id)
-                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE id = '{$id}'");
+                $user = $this->db->queryAssoc("SELECT * FROM `{$this->tableName}` WHERE `id`='{$id}'");
             else
-                $user = $this->db->queryAssoc("SELECT * FROM {$this->tableName} WHERE token = '{$this->request->token()}'");
+                $user = $this->db->queryAssoc("SELECT * FROM `{$this->tableName}` WHERE `token`='{$this->request->token()}'");
     
             if ($user)
                 $this->load($user);
@@ -233,9 +233,9 @@
          */
         private function isAdmin()
         {
-            $user_role = $this->db->queryAssoc("SELECT roles.name AS role_name
-            FROM users
-            JOIN roles ON users.role_id = roles.id WHERE users.id='{$this->id}'")['role_name'];
+            $user_role = $this->db->queryAssoc("SELECT `roles.name` AS role_name
+            FROM `{$this->id}`
+            JOIN roles ON `users.role_id` = `roles.id` WHERE `users.id`='{$this->id}'")['role_name'];
 
             return $user_role == "admin" ? true : false;
         }
@@ -247,13 +247,13 @@
         private function getBlockedInfo()
         {
             $sql_block = "SELECT COUNT(*) AS isBlocked, end_blocking
-            FROM blocked_users
+            FROM `blocked_users`
             WHERE `user_id`='{$this->id}'";
 
             $user_block = $this->db->queryAssoc($sql_block);
 
             if ($user_block['end_blocking'] && strtotime($user_block['end_blocking']) <= time()) {
-                $sql = "DELETE FROM `blocked_users` WHERE `user_id`={$this->id}";
+                $sql = "DELETE FROM `blocked_users` WHERE `user_id`='{$this->id}'";
                 $this->db->query($sql);
 
                 return $this->db->queryAssoc($sql_block);
@@ -268,7 +268,7 @@
          */
         public function getAllUsers($limit = null)
         {
-            $query = "SELECT `id` FROM users WHERE `id`!='{$this->id}'";
+            $query = "SELECT `id` FROM `users` WHERE `id`!='{$this->id}'";
 
             if ($limit)
                 $query .= " LIMIT {$limit}";
@@ -301,7 +301,7 @@
                     return $stmt->execute([$this->id, $date]);
                 else {
                     $query = "SELECT `id`
-                    FROM posts
+                    FROM `posts`
                     WHERE `user_id`='{$this->id}'";
 
                     $posts = $this->db->query($query)->fetch_all(MYSQLI_ASSOC);
@@ -325,7 +325,7 @@
         public function unblockUser()
         {
             if ($this->isBlocked) {
-                $sql = "DELETE FROM `blocked_users` WHERE `user_id`={$this->id}";
+                $sql = "DELETE FROM `blocked_users` WHERE `user_id`='{$this->id}'";
                 return $this->db->query($sql);
             } else
                 return false;
@@ -337,7 +337,7 @@
          */
         public function logout()
         {
-            $sql = "UPDATE {$this->tableName} SET token=NULL WHERE id={$this->id}";
+            $sql = "UPDATE `{$this->tableName}` SET `token`=NULL WHERE `id`='{$this->id}'";
             return $this->db->query($sql);
         }
     
@@ -346,7 +346,7 @@
          * @return bool
          */
         public function save() {
-            $sql = "INSERT INTO {$this->tableName} (name, surname, patronymic, login, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `{$this->tableName}` (name, surname, patronymic, login, email, password) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($sql);
             return $stmt->execute([$this->name, $this->surname, $this->patronymic, $this->login, $this->email, password_hash($this->password, PASSWORD_DEFAULT)]);
         }

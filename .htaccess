@@ -3,4 +3,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^app/(.*?)/?$ $1.php
 
-RewriteRule ^ /app/$1 [R=301,L]
+RewriteRule ^(.*)$ app/$1 [L]

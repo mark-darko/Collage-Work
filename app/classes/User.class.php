@@ -34,7 +34,7 @@
             'login' => [
                 'required' => true,
                 'min' => 2,
-                'max' => 10,
+                'max' => 15,
                 'unique' => 'login'
             ],
             'email' => [
@@ -57,7 +57,7 @@
             'login' => [
                 'required' => true,
                 'min' => 2,
-                'max' => 10,
+                'max' => 15,
             ],
             'password' => [
                 'required' => true,
@@ -234,7 +234,7 @@
         private function isAdmin()
         {
             if (!$this->id) return false;
-            
+
             $user_role = $this->db->queryAssoc("SELECT roles.name AS role_name
             FROM `{$this->tableName}`
             JOIN `roles` ON users.role_id = roles.id WHERE users.id='{$this->id}'")['role_name'];

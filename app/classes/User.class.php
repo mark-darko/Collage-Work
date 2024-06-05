@@ -66,9 +66,9 @@
             ],
         ];
     
-        public bool $isAdmin;
-        public bool $isGuest;
-        public bool $isBlocked;
+        public bool $isAdmin = false;
+        public bool $isGuest = true;
+        public bool $isBlocked = false;
         public ?string $endBlocking = null;
     
         public Request $request;

@@ -39,7 +39,7 @@
             foreach ($this->menu as $item) {
                 if (($item["link"] == '/app/login.php' || $item["link"] == '/app/register.php') && $this->user->id) continue;
                 if ($item["link"] == '/app/logout.php' && !$this->user->id) continue;
-                if ($item["link"] == '/app/users.php' && $this->user->isAdmin && $this->user->isBlocked) continue;
+                if ($item["link"] == '/app/users.php' && !($this->user->isAdmin && !$this->user->isBlocked)) continue;
 
                 if ($this->active_link == $item["link"])
                     $links .= '<li class="colorlib-active"><a href="' . $this->response->getLink($item["link"]) .'">' . $item["title"] . '</a></li>';

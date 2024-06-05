@@ -235,7 +235,7 @@
         {
             $user_role = $this->db->queryAssoc("SELECT roles.name AS role_name
             FROM users
-            JOIN roles ON users.role_id = roles.id WHERE users.id='{$this->id}'")['role_name'];
+            JOIN roles ON users.role_id = roles.id WHERE users.id='{$this->id}'")[0];
 
             return $user_role == "admin" ? true : false;
         }

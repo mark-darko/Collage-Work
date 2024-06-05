@@ -4,4 +4,4 @@ RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*?)/?$ $1.php
 
 RewriteCond %{HTTP_HOST} blogs.markdarko.site
-RewriteRule (.*) httsp://blogs.markdarko.site/app$1 [R=301,L]
+RewriteRule (.*) https://blogs.markdarko.site/app$1 [R=301,L]

@@ -138,7 +138,7 @@
          */
         public function deletePost()
         {
-            var_dump((($this->author->id == $this->user->id && $this->comment_count > 0) || $this->author->id !== $this->user->id) && $this->user->isGuest);
+            var_dump(((($this->author->id == $this->user->id && $this->comment_count > 0) || $this->author->id !== $this->user->id) && $this->user->isGuest) || ($this->user->isAdmin && $this->user->isBlocked));
             if (((($this->author->id == $this->user->id && $this->comment_count > 0) || $this->author->id !== $this->user->id) && $this->user->isGuest) || ($this->user->isAdmin && $this->user->isBlocked)) return false;
 
             $sql = "DELETE FROM `{$this->tableName}` WHERE `id`='{$this->id}'";

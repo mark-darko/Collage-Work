@@ -78,11 +78,11 @@
          */
         public function findAll($limit = null)
         {
-            $query = "SELECT `posts.*`, COUNT(`comments.id`) AS comment_count
-                    FROM `{$this->id}`
-                    LEFT JOIN `comments` ON `posts.id` = `comments.post_id`
-                    GROUP BY `posts.id`
-                    ORDER BY `posts.created_at` DESC";
+            $query = "SELECT posts.*, COUNT(comments.id) AS comment_count
+                    FROM `{$this->tableName}`
+                    LEFT JOIN `comments` ON posts.id = comments.post_id
+                    GROUP BY posts.id
+                    ORDER BY posts.created_at DESC";
 
             if ($limit)
                 $query .= " LIMIT {$limit}";

@@ -234,8 +234,8 @@
         private function isAdmin()
         {
             $user_role = $this->db->queryAssoc("SELECT roles.name AS role_name
-            FROM users
-            JOIN roles ON users.role_id = roles.id WHERE users.id='{$this->id}'");
+            FROM `{$this->tableName}`
+            JOIN `roles` ON users.role_id = roles.id WHERE users.id='{$this->id}'");
 
             $user_role = $user_role['role_name'];
 

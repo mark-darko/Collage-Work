@@ -22,12 +22,12 @@
     if ($request->isGet) {
         if ($request->get('comment_id') && $request->get('action') == 'delete') {
             $commentObject = new Comment($user);
-            $commentObject->getComment($post_id, $request->get('comment_id'));
+            $commentObject->getComment($post->id, $request->get('comment_id'));
             $commentObject->deleteComment();
             $response->redirect('/app/post.php', ['id' => $post->id]);
         } elseif ($request->get('answer_id')) {
             $commentObject = new Comment($user);
-            $commentObject->getComment($post_id, $request->get('answer_id'));
+            $commentObject->getComment($post->id, $request->get('answer_id'));
             $comments = [$commentObject];
         } else 
             $comments = $post->getComments();

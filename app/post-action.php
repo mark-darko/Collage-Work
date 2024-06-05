@@ -26,7 +26,7 @@
 
         if ($request->get('action') == 'delete') {
             $post->deletePost();
-            $response->redirect('/app/posts.php');
+            //$response->redirect('/app/posts.php');
         }
     }
 

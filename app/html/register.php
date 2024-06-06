@@ -24,10 +24,10 @@
 
 							<form method="POST" action="/app/register.php" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['name'])) : ?>is-invalid<?php endif ?>" value="<?= $user->name ?? '' ?>" placeholder="Ваше имя" name="name">
+									<input type="text" class="form-control <?php if(isset($user->validate_name_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->name ?? '' ?>" placeholder="Ваше имя" name="name">
 
-									<?php if(isset($user->errors["name"])) : ?>
-										<?php foreach($user->errors["name"] as $error) : ?>
+									<?php if(isset($user->validate_name_error)) : ?>
+										<?php foreach($user->validate_name_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -35,10 +35,10 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['surname'])) : ?>is-invalid<?php endif ?>" value="<?= $user->surname ?? '' ?>" placeholder="Ваша фамилия" name="surname">
+									<input type="text" class="form-control <?php if(isset($user->validate_surname_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->surname ?? '' ?>" placeholder="Ваша фамилия" name="surname">
 
-									<?php if(isset($user->errors["surname"])) : ?>
-										<?php foreach($user->errors["surname"] as $error) : ?>
+									<?php if(isset($user->validate_surname_error)) : ?>
+										<?php foreach($user->validate_surname_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -46,11 +46,11 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['patronymic'])) : ?>is-invalid<?php endif ?>" value="<?= $user->patronymic ?? '' ?>" placeholder="Ваше отчество"
+									<input type="text" class="form-control <?php if(isset($user->validate_patronymic_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->patronymic ?? '' ?>" placeholder="Ваше отчество"
 										name="patronymic">
 
-									<?php if(isset($user->errors["patronymic"])) : ?>
-										<?php foreach($user->errors["patronymic"] as $error) : ?>
+									<?php if(isset($user->validate_patronymic_error)) : ?>
+										<?php foreach($user->validate_patronymic_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -58,11 +58,11 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Ваш логин"
+									<input type="text" class="form-control <?php if(isset($user->validate_login_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Ваш логин"
 										name="login">
 
-									<?php if(isset($user->errors["login"])) : ?>
-										<?php foreach($user->errors["login"] as $error) : ?>
+									<?php if(isset($user->validate_login_error)) : ?>
+										<?php foreach($user->validate_login_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -70,11 +70,11 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="email" class="form-control <?php if(isset($user->errors['email'])) : ?>is-invalid<?php endif ?>" value="<?= $user->email ?? '' ?>" placeholder="Ваш email"
+									<input type="email" class="form-control <?php if(isset($user->validate_email_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->email ?? '' ?>" placeholder="Ваш email"
 										name="email">
 
-									<?php if(isset($user->errors["email"])) : ?>
-										<?php foreach($user->errors["email"] as $error) : ?>
+									<?php if(isset($user->validate_email_error)) : ?>
+										<?php foreach($user->validate_email_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -82,11 +82,11 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['password'])) : ?>is-invalid<?php endif ?>" value="<?= $user->password ?? '' ?>" placeholder="Пароль"
+									<input type="password" class="form-control <?php if(isset($user->validate_password_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->password ?? '' ?>" placeholder="Пароль"
 										name="password">
 
-									<?php if(isset($user->errors["password"])) : ?>
-										<?php foreach($user->errors["password"] as $error) : ?>
+									<?php if(isset($user->validate_password_error)) : ?>
+										<?php foreach($user->validate_password_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -94,11 +94,11 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['confirmPassword'])) : ?>is-invalid<?php endif ?>" value="<?= $user->confirmPassword ?? '' ?>" placeholder="Повтор пароля"
+									<input type="password" class="form-control <?php if(isset($user->validate_confirmPassword_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->confirmPassword ?? '' ?>" placeholder="Повтор пароля"
 										name="confirmPassword">
 
-									<?php if(isset($user->errors["confirmPassword"])) : ?>
-										<?php foreach($user->errors["confirmPassword"] as $error) : ?>
+									<?php if(isset($user->validate_confirmPassword_error)) : ?>
+										<?php foreach($user->validate_confirmPassword_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>

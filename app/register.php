@@ -5,12 +5,12 @@
         $user = new User($request, $db);
         $user->load($request->post());
         
-        if ($user->validateRegister()) {
-            if ($user->save()) {
-                $response = new Response($user);
-                $response->redirect('/app/index.php');
-                exit;
-            }
+        $user->validateRegister();
+        
+        if ($user->validateData() && $user->save()) {
+            $response = new Response($user);
+            $response->redirect('/app/index.php');
+            exit;
         }
     }
 

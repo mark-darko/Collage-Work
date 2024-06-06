@@ -1,7 +1,7 @@
 <?php
     class User extends Data {
         // Атрибуты
-        private string $tableName = 'users';
+        public string $tableName = 'users';
         public ?int $id = null;
         public string $name;
         public string $surname;
@@ -11,60 +11,17 @@
         public string $password;
         public string $confirmPassword;
         public ?string $token = null;
-        public string $avatar_url;
-        public array $errors = [];
-    
-        // Валидация
-        private array $validationRulesRegister = [
-            'name' => [
-                'required' => true,
-                'min' => 2,
-                'max' => 30
-            ],
-            'surname' => [
-                'required' => true,
-                'min' => 2,
-                'max' => 30
-            ],
-            'patronymic' => [
-                'required' => true,
-                'min' => 2,
-                'max' => 30
-            ],
-            'login' => [
-                'required' => true,
-                'min' => 2,
-                'max' => 15,
-                'unique' => 'login'
-            ],
-            'email' => [
-                'required' => true,
-                'email' => true,
-                'unique' => 'email'
-            ],
-            'password' => [
-                'required' => true,
-                'min' => 8,
-                'max' => 255
-            ],
-            'confirmPassword' => [
-                'required' => true,
-                'matches' => 'password'
-            ],
-        ];
+        //public string $avatar_url;
+        //public array $errors = [];
 
-        private array $validationRulesLogin = [
-            'login' => [
-                'required' => true,
-                'min' => 2,
-                'max' => 15,
-            ],
-            'password' => [
-                'required' => true,
-                'min' => 8,
-                'max' => 255
-            ],
-        ];
+        public array $validate_name_error;
+        public array $validate_surname_error;
+        public array $validate_patronymic_error;
+        public array $validate_login_error;
+        public array $validate_email_error;
+        public array $validate_password_error;
+        public array $validate_confirmPassword_error;
+        //public array $validate_avatar_url_error;
     
         public bool $isAdmin = false;
         public bool $isGuest = true;
@@ -116,79 +73,71 @@
 
         /**
          * Валидация регистрации
-         * @return bool
          */
         public function validateRegister()
         {
-            foreach ($this->validationRulesRegister as $field => $rules) {
-                foreach ($rules as $rule => $value) {
-                    switch ($rule) {
-                        case 'required':
-                            if (empty($this->$field)) {
-                                $this->errors[$field][] = "Поле {$field} обязательно для заполнения";
-                            }
-                            break;
-                        case 'min':
-                            if (strlen($this->$field) < $value) {
-                                $this->errors[$field][] = "Поле {$field} должно содержать не менее {$value} символов";
-                            }
-                            break;
-                        case 'max':
-                            if (strlen($this->$field) > $value) {
-                                $this->errors[$field][] = "Поле {$field} должно содержать не более {$value} символов";
-                            }
-                            break;
-                        case 'email':
-                            if (!filter_var($this->$field, FILTER_VALIDATE_EMAIL)) {
-                                $this->errors[$field][] = "Поле {$field} должно содержать действительный адрес электронной почты";
-                            }
-                            break;
-                        case 'unique':
-                            if (!$this->db->isUnique($this->tableName, $value, $this->$field)) {
-                                $this->errors[$field][] = "Пользователь с такими данными уже существует";
-                            }
-                            break;
-                        case 'matches':
-                            if ($this->$field != $this->$value) {
-                                $this->errors[$field][] = "Пароли не совпадают";
-                            }
-                            break;
-                    }
-                }
-            }
+            $validationRulesRegister = [
+                'name' => [
+                    'required' => true,
+                    'min' => 2,
+                    'max' => 10
+                ],
+                'surname' => [
+                    'required' => true,
+                    'min' => 2,
+                    'max' => 15
+                ],
+                'patronymic' => [
+                    'required' => true,
+                    'min' => 2,
+                    'max' => 20
+                ],
+                'login' => [
+                    'required' => true,
+                    'min' => 5,
+                    'max' => 15,
+                    'unique' => 'login'
+                ],
+                'email' => [
+                    'required' => true,
+                    'email' => true,
+                    'unique' => 'email'
+                ],
+                'password' => [
+                    'required' => true,
+                    'min' => 8,
+                    'max' => 255
+                ],
+                'confirmPassword' => [
+                    'required' => true,
+                    'matches' => 'password'
+                ],
+            ];
+            
+            Validator::make($this, $validationRulesRegister);
     
-            return empty($this->errors);
+            //return empty($this->errors);
         }
 
         /**
          * Валидация логина
-         * @return bool
          */
         public function validateLogin()
         {
-            foreach ($this->validationRulesLogin as $field => $rules) {
-                foreach ($rules as $rule => $value) {
-                    switch ($rule) {
-                        case 'required':
-                            if (empty($this->$field)) {
-                                $this->errors[$field][] = "Поле {$field} обязательно для заполнения";
-                            }
-                            break;
-                        case 'min':
-                            if (strlen($this->$field) < $value) {
-                                $this->errors[$field][] = "Поле {$field} должно содержать не менее {$value} символов";
-                            }
-                            break;
-                        case 'max':
-                            if (strlen($this->$field) > $value) {
-                                $this->errors[$field][] = "Поле {$field} должно содержать не более {$value} символов";
-                            }
-                            break;
-                    }
-                }
-            }
+            $validationRulesLogin = [
+                'login' => [
+                    'required' => true,
+                    'max' => 255,
+                ],
+                'password' => [
+                    'required' => true,
+                    'max' => 255,
+                ],
+            ];
+
+            Validator::make($this, $validationRulesLogin);
     
-            return empty($this->errors);
+            //return empty($this->errors);
         }
 
         /**
@@ -207,9 +156,9 @@
                 $this->db->query($sql);
 
             } else
-                $this->errors['login'][] = 'Логин или пароль не совпадают с нашими записями!';
+                $this->validate_login_error[] = 'Логин или пароль не совпадают с нашими записями!';
 
-            return empty($this->errors['login']);
+            return empty($this->validate_login_error);
         }
 
         /**

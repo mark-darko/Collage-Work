@@ -11,14 +11,15 @@
         else
             $post->load($request->post());
 
-        //if ($post->validate()) { доделать validatedata
-            $post->save();
+        $post->validatePost();
+
+        if ($post->validateData() && $post->save()) {
             $response = new Response($user);
             if ($post->id)
                 $response->redirect('/app/post.php', ['id' => $post->id]);
             else
                 $response->redirect('/app/post.php', ['id' => $db->insert_id]);
-        //}
+        }
     }
 
     if ($request->isGet && $request->get('id')) {

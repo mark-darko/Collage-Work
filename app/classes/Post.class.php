@@ -4,7 +4,9 @@
         private User $user;
         public ?int $id = null;
         public string $title;
+        public array $validate_title_error;
         public ?string $content = null;
+        public array $validate_content_error;
         public string $created_at;
         public int $comment_count;
         public User $author;
@@ -18,9 +20,19 @@
             $this->user = $user;
         }
 
-        public function validate()
+        public function validatePost()
         {
+            $validationRulesPost = [
+                'title' => [
+                    'required' => true,
+                    'max' => 255,
+                ],
+                'content' => [
+                    'required' => true,
+                ],
+            ];
 
+            Validator::make($this, $validationRulesPost);
         }
 
         /**

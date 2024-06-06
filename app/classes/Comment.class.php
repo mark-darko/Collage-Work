@@ -46,7 +46,7 @@
          */
         public function createComment($post_id, $content, $answer_id = null)
         {
-            if ($this->user->isBlocked) return false;
+            if ($this->user->isBlocked || !$content) return false;
 
             $post = $this->user->db->queryAssoc("SELECT `user_id` FROM `posts` WHERE `id`='{$post_id}'");
 

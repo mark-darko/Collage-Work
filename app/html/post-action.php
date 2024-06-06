@@ -22,10 +22,10 @@
 						<div class="col-lg-6 d-flex">
 							<form action="<?= $request->get('id') ? $response->getLink('/app/post-action.php', ['id' => $request->get('id')]) : $response->getLink('/app/post-action.php') ?>" method="POST" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($post->errors['title'])) : ?>is-invalid<?php endif ?>" value="<?= $post->title ?? '' ?>" placeholder="Название поста" name="title">
+									<input type="text" class="form-control <?php if(isset($post->validate_title_error)) : ?>is-invalid<?php endif ?>" value="<?= $post->title ?? '' ?>" placeholder="Название поста" name="title">
 
-									<?php if(isset($user->errors["title"])) : ?>
-										<?php foreach($user->errors["title"] as $error) : ?>
+									<?php if(isset($post->validate_title_error)) : ?>
+										<?php foreach($post->validate_title_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -33,10 +33,10 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<textarea id="" cols="30" rows="10" class="form-control <?php if(isset($post->errors['content'])) : ?>is-invalid<?php endif ?>" placeholder="Контент поста" name="content"><?= $post->br2nl($post->content) ?? '' ?></textarea> 
+									<textarea id="" cols="30" rows="10" class="form-control <?php if(isset($post->validate_content_error)) : ?>is-invalid<?php endif ?>" placeholder="Контент поста" name="content"><?= $post->br2nl($post->content) ?? '' ?></textarea> 
 
-									<?php if(isset($user->errors["content"])) : ?>
-										<?php foreach($user->errors["content"] as $error) : ?>
+									<?php if(isset($post->validate_content_error)) : ?>
+										<?php foreach($post->validate_content_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>

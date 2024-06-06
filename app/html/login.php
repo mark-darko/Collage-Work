@@ -21,11 +21,11 @@
 						<div class="col-lg-6 d-flex">
 							<form action="/app/login.php" method="POST" class="bg-light p-5 contact-form">
 								<div class="form-group">
-									<input type="text" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Ваш логин"
+									<input type="text" class="form-control <?php if(isset($user->validate_login_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->login ?? '' ?>" placeholder="Ваш логин"
 										name="login">
 
-									<?php if(isset($user->errors["login"])) : ?>
-										<?php foreach($user->errors["login"] as $error) : ?>
+									<?php if(isset($user->validate_login_error)) : ?>
+										<?php foreach($user->validate_login_error as $error) : ?>
 											<div class="invalid-feedback">
 												<?= $error ?>
 											</div>
@@ -33,7 +33,7 @@
 									<?php endif ?>
 								</div>
 								<div class="form-group">
-									<input type="password" class="form-control <?php if(isset($user->errors['login'])) : ?>is-invalid<?php endif ?>" placeholder="Пароль"
+									<input type="password" class="form-control <?php if(isset($user->validate_login_error)) : ?>is-invalid<?php endif ?>" placeholder="Пароль"
 										name="password">
 								</div>
 								<div class="form-group">

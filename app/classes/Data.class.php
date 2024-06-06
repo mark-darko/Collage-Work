@@ -19,7 +19,7 @@
                     //    $errors[] = 'Validation error for ' . $key;
                     //}
 
-                    if ($value === true) {
+                    if ($value !== null) {
                         $errors[] = 'Validation error for ' . $key;
                     }
                 }
@@ -98,5 +98,5 @@
             } else {
               return $number . ' ' . $plural2;
             }
-        }          
+        }        
     }

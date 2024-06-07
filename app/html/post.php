@@ -22,7 +22,7 @@
 								<div class="meta-wrap">
 									<p class="meta">
 										<?php if ($post->author->avatar_url) : ?>
-											<img src="/uploaded_files/<?= $post->author->avatar_url ?>" class="img img-2">
+											<img src="/app/uploaded_files/<?= $post->author->avatar_url ?>" class="img img-2">
 										<?php endif ?>
 										<span class="text text-3"><?= $post->author->name ?></span>
 										<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>

@@ -5,6 +5,8 @@
         $user = new User($request, $db);
         $user->load($request->post());
         
+        var_dump($_FILES);
+
         $user->validateRegister();
         
         if ($user->validateData() && $user->save()) {

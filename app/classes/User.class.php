@@ -324,7 +324,7 @@
 
             $sql = "INSERT INTO `{$this->tableName}` (name, surname, patronymic, login, email, password, avatar_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($sql);
-            return $stmt->execute([$this->name, $this->surname, $this->patronymic, $this->login, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $dest_path ?? null]);
+            return $stmt->execute([$this->name, $this->surname, $this->patronymic, $this->login, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $newFileName ?? null]);
         }
     
     }

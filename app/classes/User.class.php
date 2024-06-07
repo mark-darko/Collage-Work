@@ -310,8 +310,8 @@
          */
         public function save() {
             if (isset($_FILES['avatar_url']) && $_FILES['avatar_url']['error'] === UPLOAD_ERR_OK) {
-                $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
-                $fileName = $_FILES['uploadedFile']['name'];
+                $fileTmpPath = $_FILES['avatar_url']['tmp_name'];
+                $fileName = $_FILES['avatar_url']['name'];
                 $fileNameCmps = explode(".", $fileName);
                 $fileExtension = strtolower(end($fileNameCmps));
 

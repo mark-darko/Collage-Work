@@ -31,6 +31,9 @@
 												<h3 class="mb-2"><a href="single.html"><?= $post->title ?></a></h3>
 												<div class="meta-wrap">
 													<p class="meta">
+														<?php if ($user->avatar_url) : ?>
+															<img src="/app/uploaded_files/<?= $user->avatar_url ?>" style="max-width: 30px; max-height: 30px; border-radius: 999px;">
+														<?php endif ?>
 														<span class="text text-3"><?= $post->author->name ?></span>
 														<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
 														<span><i class="icon-comment2 mr-2"></i><?= $post->pluralize($post->comment_count, 'Комментарий', 'Комментария', 'Комментариев') ?></span>

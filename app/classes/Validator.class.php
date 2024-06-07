@@ -57,7 +57,7 @@
                             break;
                         case 'file_types':
                             if (isset($_FILES[$field]) && $_FILES[$field]['error'] == UPLOAD_ERR_OK) {
-                                $fileName = $_FILES['uploadedFile']['name'];
+                                $fileName = $_FILES[$field]['name'];
                                 $fileNameCmps = explode(".", $fileName);
                                 $fileExtension = strtolower(end($fileNameCmps));
 

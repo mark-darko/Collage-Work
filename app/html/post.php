@@ -21,7 +21,9 @@
 								<h1 class="mb-3"><?= $post->title ?></h1>
 								<div class="meta-wrap">
 									<p class="meta">
-										<!-- <img src='avatar.jpg' /> -->
+										<?php if ($post->author->avatar_url) : ?>
+											<img src="/uploaded_files/<?= $post->author->avatar_url ?>" class="img img-2">
+										<?php endif ?>
 										<span class="text text-3"><?= $post->author->name ?></span>
 										<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>
 										<span><i class="icon-comment2 mr-2"></i><?= $post->pluralize($post->comment_count, 'Комментарий', 'Комментария', 'Комментариев') ?></span>

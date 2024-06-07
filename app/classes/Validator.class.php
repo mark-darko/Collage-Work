@@ -52,11 +52,11 @@
                             }
                             break;
                         case 'file_size_max':
-                            if (!isset($_FILES[$field]) && $_FILES['field']['error'] !== UPLOAD_ERR_OK && $_FILES['uploadedFile']['size'] > $value)
+                            if (!isset($_FILES[$field]) && $_FILES[$field]['error'] !== UPLOAD_ERR_OK && $_FILES[$field]['size'] > $value)
                                 $data->$filedError[] = "Размер файла должен быть не более $value байт";
                             break;
                         case 'file_types':
-                            if (isset($_FILES[$field]) && $_FILES['field']['error'] == UPLOAD_ERR_OK) {
+                            if (isset($_FILES[$field]) && $_FILES[$field]['error'] == UPLOAD_ERR_OK) {
                                 $fileName = $_FILES['uploadedFile']['name'];
                                 $fileNameCmps = explode(".", $fileName);
                                 $fileExtension = strtolower(end($fileNameCmps));

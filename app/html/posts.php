@@ -42,7 +42,7 @@
 												style="background-image: url(images/image_1.jpg);"></a> 
 											-->
 											<?php if ($user->avatar_url) : ?>
-												<img src="/app/uploaded_files/<?= $user->avatar_url ?>" class="img img-2">
+												<img src="/app/uploaded_files/<?= $user->avatar_url ?>" style="max-width: 20px; max-height: 20px; border-radius: 999px;">
 											<?php endif ?>
 											<div class="text text-2 pl-md-4">
 												<h3 class="mb-2"><a href="single.html"><?= $post->title ?></a></h3>

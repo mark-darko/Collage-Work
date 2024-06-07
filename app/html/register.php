@@ -107,7 +107,7 @@
 								</div>
 
 								<div class="form-group">
-									<input type="file" class="form-control <?php if(isset($user->validate_avatar_url_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->avatar_url ?? '' ?>"
+									<input type="file" class="form-control <?php if(isset($user->validate_avatar_url_error)) : ?>is-invalid<?php endif ?>"
 										name="avatar_url" accept=".jpg, .jpeg, .png">
 
 									<?php if(isset($user->validate_avatar_url_error)) : ?>

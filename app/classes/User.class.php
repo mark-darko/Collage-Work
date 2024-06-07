@@ -11,7 +11,7 @@
         public string $password;
         public string $confirmPassword;
         public ?string $token = null;
-        public string $avatar_url;
+        public ?string $avatar_url = null;
         //public array $errors = [];
 
         public array $validate_name_error;
@@ -309,9 +309,22 @@
          * @return bool
          */
         public function save() {
-            $sql = "INSERT INTO `{$this->tableName}` (name, surname, patronymic, login, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+            if (isset($_FILES['avatar_url']) && $_FILES['avatar_url']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
+                $fileName = $_FILES['uploadedFile']['name'];
+                $fileNameCmps = explode(".", $fileName);
+                $fileExtension = strtolower(end($fileNameCmps));
+
+                $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+
+                $uploadFileDir = './uploaded_files/';
+                $dest_path = $uploadFileDir . $newFileName;
+                move_uploaded_file($fileTmpPath, $dest_path);
+            }
+
+            $sql = "INSERT INTO `{$this->tableName}` (name, surname, patronymic, login, email, password, avatar_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($sql);
-            return $stmt->execute([$this->name, $this->surname, $this->patronymic, $this->login, $this->email, password_hash($this->password, PASSWORD_DEFAULT)]);
+            return $stmt->execute([$this->name, $this->surname, $this->patronymic, $this->login, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $dest_path ?? null]);
         }
     
     }

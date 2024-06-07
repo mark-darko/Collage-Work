@@ -22,7 +22,7 @@
 								<div class="meta-wrap">
 									<p class="meta">
 										<?php if ($post->author->avatar_url) : ?>
-											<img src="/app/uploaded_files/<?= $post->author->avatar_url ?>" style="max-width: 20px; max-height: 20px; border-radius: 999px;">
+											<img src="/app/uploaded_files/<?= $post->author->avatar_url ?>" style="max-width: 30px; max-height: 30px; border-radius: 999px;">
 										<?php endif ?>
 										<span class="text text-3"><?= $post->author->name ?></span>
 										<span><i class="icon-calendar mr-2"></i><?= $post->displayDate($post->created_at) ?></span>

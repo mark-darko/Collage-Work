@@ -22,7 +22,7 @@
 					<div class="row block-9">
 						<div class="col-lg-6 d-flex">
 
-							<form method="POST" action="/app/register.php" class="bg-light p-5 contact-form">
+							<form method="POST" action="/app/register.php" enctype="multipart/form-data" class="bg-light p-5 contact-form">
 								<div class="form-group">
 									<input type="text" class="form-control <?php if(isset($user->validate_name_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->name ?? '' ?>" placeholder="Ваше имя" name="name">
 

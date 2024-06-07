@@ -107,6 +107,19 @@
 								</div>
 
 								<div class="form-group">
+									<input type="file" class="form-control <?php if(isset($user->validate_avatar_url_error)) : ?>is-invalid<?php endif ?>" value="<?= $user->avatar_url ?? '' ?>"
+										name="avatar_url" accept=".jpg, .jpeg, .png">
+
+									<?php if(isset($user->validate_avatar_url_error)) : ?>
+										<?php foreach($user->validate_avatar_url_error as $error) : ?>
+											<div class="invalid-feedback">
+												<?= $error ?>
+											</div>
+										<?php endforeach ?>
+									<?php endif ?>
+								</div>
+
+								<div class="form-group">
 									<div class="form-check">
 										<input class="form-check-input is-invalid" type="checkbox" value=""
 											id="rules" aria-describedby="invalidCheck3Feedback" required>

@@ -11,7 +11,7 @@
         public string $password;
         public string $confirmPassword;
         public ?string $token = null;
-        //public string $avatar_url;
+        public string $avatar_url;
         //public array $errors = [];
 
         public array $validate_name_error;
@@ -21,7 +21,7 @@
         public array $validate_email_error;
         public array $validate_password_error;
         public array $validate_confirmPassword_error;
-        //public array $validate_avatar_url_error;
+        public array $validate_avatar_url_error;
     
         public bool $isAdmin = false;
         public bool $isGuest = true;
@@ -112,6 +112,10 @@
                     'required' => true,
                     'matches' => 'password'
                 ],
+                'avatar_url' => [
+                    'file_size_max' => 1024,
+                    'file_types' => 'jpg|png|jpeg',
+                ]
             ];
             
             Validator::make($this, $validationRulesRegister);
@@ -263,10 +267,18 @@
                         $postObject->deletePost();
                     }
 
+                    $this->deleteAllComments();
+
                     return $stmt->execute([$this->id, null]);
                 }
             } else
                 return false;
+        }
+
+        public function deleteAllComments()
+        {
+            $sql = "DELETE FROM `comments` WHERE `user_id`='{$this->id}'";
+            return $this->db->query($sql);
         }
 
         /**

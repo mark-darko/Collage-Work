@@ -51,6 +51,22 @@
                                 $data->$filedError[] = "Пароли не совпадают";
                             }
                             break;
+                        case 'file_size_max':
+                            if (!isset($_FILES[$field]) && $_FILES['field']['error'] !== UPLOAD_ERR_OK && $_FILES['uploadedFile']['size'] > $value)
+                                $data->$filedError[] = "Размер файла должен быть не более $value байт";
+                            break;
+                        case 'file_types':
+                            if (isset($_FILES[$field]) && $_FILES['field']['error'] == UPLOAD_ERR_OK) {
+                                $fileName = $_FILES['uploadedFile']['name'];
+                                $fileNameCmps = explode(".", $fileName);
+                                $fileExtension = strtolower(end($fileNameCmps));
+
+                                $allowedfileExtensions = explode('|', $value);
+                                if (!in_array($fileExtension, $allowedfileExtensions)) {
+                                    $data->$filedError[] = "Тип файла должен быть " . str_replace('|', ',', $value);;   
+                                }
+                            }
+                            break;
                     }
                 }
             }

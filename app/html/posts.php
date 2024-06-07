@@ -53,7 +53,7 @@
 														<span><i class="icon-comment2 mr-2"></i><?= $post->pluralize($post->comment_count, 'Комментарий', 'Комментария', 'Комментариев') ?></span>
 													</p>
 												</div>
-												<p class="mb-4"><?= mb_strimwidth( $post->br2nl($post->content), 0, 15, "...") ?></p>
+												<p class="mb-4"><?= mb_strimwidth( $post->br2nl($post->content), 0, 50, "...") ?></p>
 												<div class="d-flex pt-1  justify-content-between">
 													<div>
 													<a href="<?= $response->getLink('/app/post.php', ['id' => $post->id]) ?>" class="btn-custom">

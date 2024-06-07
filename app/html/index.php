@@ -36,7 +36,7 @@
 														<span><i class="icon-comment2 mr-2"></i><?= $post->pluralize($post->comment_count, 'Комментарий', 'Комментария', 'Комментариев') ?></span>
 													</p>
 												</div>
-												<p class="mb-4"><?= mb_strimwidth( $post->br2nl($post->content), 0, 15, "...") ?></p>
+												<p class="mb-4"><?= mb_strimwidth( $post->br2nl($post->content), 0, 50, "...") ?></p>
 												<p><a href="<?= $response->getLink('/app/post.php', ['id' => $post->id]) ?>" class="btn-custom">Подробнее... <span
 															class="ion-ios-arrow-forward"></span></a></p>
 											</div>

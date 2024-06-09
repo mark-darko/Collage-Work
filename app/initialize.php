@@ -9,9 +9,7 @@
     $user = new User($request, $db);
     $response = new Response($user);
 
-    Middleware::checkPermissions($user, $response, $permissions);
-
-    $menu = new Menu($menu_array, $response, $user);
+    $menu = new Menu($menu_array, $response, $user,$permissions);
     $post = new Post($user);
 
     $menu_html = $menu->get_menu();

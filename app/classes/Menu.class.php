@@ -11,13 +11,21 @@
          * @param string $active_link
          * @param Response $response
          * @param User $user
+         * @param array $permissions
          */
-        public function __construct($menu, $response, $user)
+        public function __construct($menu, $response, $user, $permissions)
         {
             $this->menu = $menu;
             $this->active_link = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
             $this->response = $response;
             $this->user = $user;
+
+            foreach($permissions as $permission => $pages) {
+                foreach($pages as $page) {
+                    if ($page == $this->active_link && $user->$permission)
+                        $response->redirect('/app/index.php');
+                }
+            }
         }
 
         /**
